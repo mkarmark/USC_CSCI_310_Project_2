@@ -68,10 +68,71 @@
 						<?php foreach ($WC->papers as $key => $paper) {
 							echo '<tr><td>'.$paper->countWord($WC->query).'</td>';
 							echo '<td>';
-							$title_words = explode(' ', $paper->title);
-							foreach ($title_words as $title_word) {
-								echo '<a href="cloud.php?query='.preg_replace('/[^a-z0-9]+/i', '', $title_word).'">'.$title_word.' </a>';
-							}
+							// $title_words = explode(' ', $paper->title);
+							// foreach ($title_words as $title_word) {
+							// 	echo '<a href="cloud.php?query='.preg_replace('/[^a-z0-9]+/i', '', $title_word).'">'.$title_word.' </a>';
+							// }
+							$ab = $paper->abstract;
+							echo '<!-- The Modal -->
+								<div id=' . "\"myModal" . $ab . "\"" . 'class="modal">
+
+								  <!-- Modal content -->
+								  <div class="modal-content">
+								    <span id='. "\"close" . $ab . "\"" . ' class = "close">&times;</span>
+								    <p id='. "\"abstract_section" . $ab . "\"" . '>' . $ab . '</p>
+								    <button id='. "\"pdfdownload" . $ab . "\"" . ' onclick="openPDF()">'.$good . '</button>
+								  </div>
+
+								</div>';
+							echo '<script> 
+								var modal = document.getElementById(' . "\"myModal" . $ab . "\"" . '); 
+								var span = document.getElementById('. "\"close" . $ab . "\"" . '); 
+								span.onclick = function() {
+									var m = document.getElementById(' . "\"myModal" . $ab . "\"" . '); 
+									m.style.display = "none"; 
+								}
+
+								window.onclick = function(event) {
+									if (event.target == modal) {
+										modal.style.display = "none"; 
+									}
+								}
+
+								function openPDF() {
+									var link = document.createElement("a");
+									link.download = "test.jsp";
+									link.target = "_blank";
+									link.href = document.getElementById('. "\"pdfdownload" . $ab . "\"" . ' ).innerHTML;
+									document.body.appendChild(link);
+									link.click();
+									document.body.removeChild(link);
+									delete link; 
+								}
+
+
+
+							</script>'; 
+
+							echo '<button id='. "\"button" . $ab . "\"" . '>'.$paper->title.'</button>';
+							echo '<script> 
+							var b = document.getElementById('. "\"button" . $ab . "\"" . ');
+
+							b.onclick = function() {
+								var m = document.getElementById(' . "\"myModal" . $ab . "\"" . '); 
+									m.style.display = "block";
+									var abstractSection = document.getElementById('. "\"abstract_section" . $ab . "\"" . ');
+									console.log("This is the abstract: " + abstractSection.innerHTML); 
+									var updated_abstract = "";
+									var unedittedAbstract = abstractSection.innerHTML;
+									var explodedStr = unedittedAbstract.split(" ");
+									for (var word in explodedStr) {
+										updated_abstract = updated_abstract + explodedStr[word] + " ";
+										
+									 	
+									}
+									abstractSection.innerHTML = updated_abstract;  
+							}';
+
 							echo '</td>';
 							echo '<td>';
 							$author_words = preg_split('/([;])/', $paper->author_string, -1, PREG_SPLIT_DELIM_CAPTURE);
