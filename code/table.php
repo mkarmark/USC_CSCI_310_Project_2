@@ -73,7 +73,9 @@
 							// 	echo '<a href="cloud.php?query='.preg_replace('/[^a-z0-9]+/i', '', $title_word).'">'.$title_word.' </a>';
 							// }
 							$ab = $paper->abstract;
-							echo '<!-- The Modal -->
+							$beg = substr($paper->pdf, 0, 26);
+							$end = substr($paper->pdf, 26);
+							$good = $beg . '.libproxy2.usc.edu'. $end;							echo '<!-- The Modal -->
 								<div id=' . "\"myModal" . $ab . "\"" . 'class="modal">
 
 								  <!-- Modal content -->
@@ -106,6 +108,17 @@
 									document.body.appendChild(link);
 									link.click();
 									document.body.removeChild(link);
+									delete link; 
+								}
+
+								function abstractPopupPDFViewer() {
+									var button = document.createElement("a");
+									button.download = "test.jsp";
+									button.target = "_blank";
+									button.href = document.getElementById('. "\"pdfdownload" . $ab . "\"" . ' ).innerHTML;
+									document.body.appendChild(button);
+									button.click();
+									document.body.removeChild(button);
 									delete link; 
 								}
 
@@ -174,7 +187,7 @@
 							"class='white_content light'>".$paper->bibtex->bibtex."<a class='close_link' href='javascript:void(0)' ".
 							"onclick=\"document.getElementById('bib-light-".$key."').style.display='none';".
 							"document.getElementById('bib-fade-".$key."').style.display='none'\">Close</a></div><div id='bib-fade-".$key."' class='black_overlay'></div></td>";
-							echo '<td><a href="'.$paper->pdf.'" target=\'_blank\'">PDF</a></td></tr>';
+							echo '<td><a href="'.$good.'" target=\'_blank\'">PDF</a></td></tr>';
 						}
 						?>
 						</tbody>
