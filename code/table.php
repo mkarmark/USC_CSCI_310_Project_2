@@ -126,8 +126,17 @@
 									var unedittedAbstract = abstractSection.innerHTML;
 									var explodedStr = unedittedAbstract.split(" ");
 									for (var word in explodedStr) {
-										updated_abstract = updated_abstract + explodedStr[word] + " ";
-										
+										var w = explodedStr[word];
+										if (w.indexOf('."\"". $query . "\"".') != -1) {
+										//if (explodedStr[word] === '."\"". $query . "\"".') {
+											updated_abstract = updated_abstract;
+											updated_abstract += "<span class=\'highlight\'>";
+											updated_abstract += explodedStr[word];
+											updated_abstract += "</span>";
+											updated_abstract += " "; 
+										} else {
+											updated_abstract = updated_abstract + explodedStr[word] + " ";
+										}
 									 	
 									}
 									abstractSection.innerHTML = updated_abstract;  
