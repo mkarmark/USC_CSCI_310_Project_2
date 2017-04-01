@@ -15,6 +15,7 @@ class Paper {
 	public $volume;
 	public $issue;
 	public $wordCount = array();
+	public $wordFrequency = array();
 	public $bibtex;
 
 	function __construct($paper) {
@@ -43,7 +44,7 @@ class Paper {
 
 
 	// Returns a key value pair list of words
-	// and their frequency in the song
+	// and their frequency in the paper
 	function getWordCount() {
 		if (!empty($this->wordCount)) return $this->wordCount;
 		$this->text = preg_replace('/\[([^\[\]]++|(?R))*+\]/', '', $this->text);
@@ -63,6 +64,29 @@ class Paper {
 		$wordCount = $this->getWordCount();
 		if (isset($wordCount[$word])) {
 			return $wordCount[$word];
+		}
+		return 0;
+	}
+
+	function getFrequency() {
+		if (!empty($this->wordFrequency)) return $this->wordFrequency;
+		$this->text = preg_replace('/\[([^\[\]]++|(?R))*+\]/', '', $this->text);
+		$words = preg_split('/((^\p{P}+)|(\p{P}*\s+\p{P}*)|(\p{P}+$))/', $this->text, -1, PREG_SPLIT_NO_EMPTY);
+		foreach ($words as $word) {
+			$word = strtolower($word);
+			if (isset($this->wordFrequency[$word])) {
+				$this->wordFrequency[$word] += 1;
+			} else {
+				$this->wordFrequency[$word] = 1;
+			} 
+		}
+		return $this->wordFrequency;
+	}
+
+	function countFrequency($word) {
+		$wordFrequency = $this->getFrequency();
+		if (isset($wordFrequency[$word])) {
+			return $wordFrequency[$word];
 		}
 		return 0;
 	}
