@@ -18,6 +18,13 @@
 		        $("#tftable").tablesorter( {sortList: [[0,1]]} ); 
 		    });
 		</script>
+
+		<script>
+		function createTextFile() {
+			
+			 alert("Look at newfile.txt! It's there!!!!!");
+		}
+		</script>
 		<link rel="stylesheet" type="text/css" href="assets/stylesheets/main.css">
 		<meta charset="utf-8">	
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -34,9 +41,21 @@
 					<a href="./index.php"><img src="assets/images/home.png" height="35%" width="35%" /></a>
 				</div>
 				<?php
-					if (isset($WC)) {
+					
+					if (isset($WC)) { 
+						// try {
+						// 	$WC->generateWC();
+						// }
+						// catch (Exception $e) {
+						// }
+						$query = $_GET['query'];
+
 						try {
-							$WC->generateWC();
+							$WC = new WordCloud($query);
+							
+							 $WC->generateCloud(new IEEE());
+							 $_SESSION['WC'] = $WC;
+							 $WC->generateWC();
 						}
 						catch (Exception $e) {
 						}
@@ -65,17 +84,65 @@
 							</tr>
 						</thead>
 						<tbody>
-						<?php foreach ($WC->papers as $key => $paper) {
+						<?php 
+						$myFile = fopen('newfile.txt', 'w') or die('unable to open');
+						$papers = $WC->getPapers(new IEEE());
+							foreach($papers as $paper) {
+								$p = implode('|', $paper); 
+									echo '<script> console.log("Paper title: ' . $p . '"); </script> ';
+									
+							}
+							$frequencyArray = array("freq");
+							$authorArray = array("author");
+							$titleArray = array("test");
+							$conferenceArray = array("conf");
+						foreach ($WC->papers as $key => $paper) {
+							$WC->query = $_GET['query'];
+							echo '<script> console.log("Abstract: ' . $paper->abstract . '"); </script> ';
+							$ab = $paper->abstract;
+							echo '<script> console.log("Abs: ' . $ab . '"); </script> ';
 							echo '<tr><td>'.$paper->countWord($WC->query).'</td>';
 							echo '<td>';
-							// $title_words = explode(' ', $paper->title);
-							// foreach ($title_words as $title_word) {
-							// 	echo '<a href="cloud.php?query='.preg_replace('/[^a-z0-9]+/i', '', $title_word).'">'.$title_word.' </a>';
+							array_push($titleArray, $paper->title); 
+							array_push($frequencyArray, $paper->countWord($WC->query) . "");
+							array_push($authorArray, $paper->author_string);
+							array_push($conferenceArray, $paper->source);
+							echo '<script> console.log("array title: ' . $titleArray[sizeof($titleArray)-1] . '"); </script> ';
+							echo '<script> console.log("array author: ' . $authorArray[sizeof($authorArray)-1] . '"); </script> ';
+							echo '<script> console.log("array conf: ' . $conferenceArray[sizeof($conferenceArray)-1] . '"); </script> ';
+							echo '<script> console.log("array freq: ' . $frequencyArray[sizeof($frequencyArray)-1] . '"); </script> ';
+							$titlea = "Title: " . $titleArray[sizeof($titleArray)-1] . "\n";
+							$authora = "Author: " . $authorArray[sizeof($authorArray)-1] . "\n";
+							$conferencea = "Conference: " . $conferenceArray[sizeof($conferenceArray)-1] . "\n";
+							$frequencya = "Frequency: " . $frequencyArray[sizeof($frequencyArray)-1] . "\n";
+							$dummyline = "\n";
+							fwrite($myFile, $titlea);
+							fwrite($myFile, $authora);
+							fwrite($myFile, $conferencea);
+							fwrite($myFile, $frequencya); 
+							fwrite($myFile, $dummyline); 
+
+							//$title_words = explode(' ', $paper->title);
+							//foreach ($title_words as $title_word) {
+							//	echo '<a href="cloud.php?query='.preg_replace('/[^a-z0-9]+/i', '', $title_word).'">'.$title_word.' </a>';
+							//}
+							echo '<link href="assets/stylesheets/modal.css" rel="stylesheet">';
+							// $abstract_words = explode(' ', $paper->abstract); 
+							// $updated_abstract = "";
+							// foreach ($abstract_words as $abstract_word) {
+							// 	if ($abstract_word === 'the') {
+							// 		//alert("the"); 
+							// 		$abstract_word = '<span class="highlight">' . $abstract_word . '</span>';  
+							// 		//$abstract_word = $abstract_word . '\u0332'; 
+							// 	}//$updated_abstract 
+							// 	$updated_abstract = $updated_abstract . $abstract_word . " "; 
 							// }
-							$ab = $paper->abstract;
-							$beg = substr($paper->pdf, 0, 26);
-							$end = substr($paper->pdf, 26);
-							$good = $beg . '.libproxy2.usc.edu'. $end;							echo '<!-- The Modal -->
+
+							$beg = substr($paper->pdf, 0, 26); 
+							$end = substr($paper->pdf, 26); 
+							$good = $beg . '.libproxy2.usc.edu' . $end; 
+							
+							echo '<!-- The Modal -->
 								<div id=' . "\"myModal" . $ab . "\"" . 'class="modal">
 
 								  <!-- Modal content -->
@@ -87,6 +154,7 @@
 
 								</div>';
 							echo '<script> 
+
 								var modal = document.getElementById(' . "\"myModal" . $ab . "\"" . '); 
 								var span = document.getElementById('. "\"close" . $ab . "\"" . '); 
 								span.onclick = function() {
@@ -124,14 +192,16 @@
 
 
 
-							</script>'; 
 
+							</script>'; 
+							
 							echo '<button id='. "\"button" . $ab . "\"" . '>'.$paper->title.'</button>';
 							echo '<script> 
 							var b = document.getElementById('. "\"button" . $ab . "\"" . ');
 
-							b.onclick = function() {
-								var m = document.getElementById(' . "\"myModal" . $ab . "\"" . '); 
+							b.onclick = function() 
+								{
+									var m = document.getElementById(' . "\"myModal" . $ab . "\"" . '); 
 									m.style.display = "block";
 									var abstractSection = document.getElementById('. "\"abstract_section" . $ab . "\"" . ');
 									console.log("This is the abstract: " + abstractSection.innerHTML); 
@@ -152,11 +222,16 @@
 										}
 									 	
 									}
+									console.log(updated_abstract); 
 									abstractSection.innerHTML = updated_abstract;  
-							}';
+								} 
 
+								</script>'; 
+							//echo '<div>'.$paper->title.' </div>'; 
 							echo '</td>';
 							echo '<td>';
+							//echo $paper->authors;
+							//echo implode(" ", $paper->authors); 
 							$author_words = preg_split('/([;])/', $paper->author_string, -1, PREG_SPLIT_DELIM_CAPTURE);
 							foreach ($author_words as $author_word) {
 								if ($author_word!==';') {
@@ -187,13 +262,37 @@
 							"class='white_content light'>".$paper->bibtex->bibtex."<a class='close_link' href='javascript:void(0)' ".
 							"onclick=\"document.getElementById('bib-light-".$key."').style.display='none';".
 							"document.getElementById('bib-fade-".$key."').style.display='none'\">Close</a></div><div id='bib-fade-".$key."' class='black_overlay'></div></td>";
-							echo '<td><a href="'.$good.'" target=\'_blank\'">PDF</a></td></tr>';
+							 
+							$pattern = '/org//';
+							$replacement = 'org.libproxy2.usc.edu/';
+							$replaced = preg_replace($pattern, $replacement, $string); 
+							echo '<td><a href="'.$good.'" target=\'_blank\'"> PDF </a></td></tr>';
+							//echo '<td><a href="'.$good.'" download>PDF</a></td></tr>';
+							//echo '<td><a href="https://www.w3schools.com/css/trolltunga.jpg" download>PDF</a></td></tr>';
+
+							// echo '<script> 
+							// 	function createTextFile() {
+									
+    			// 					var textfile = "arpitatest.txt";
+    			// 					var file = new File([""], textfile);
+    			// 					var str = "my text";
+    			// 					file.open("w");
+    			// 					file.write(str);
+    			// 					file.close();
+							// 	}
+							// </script>';
 						}
+						fclose($myFile);
+						//echo '<script> console.log("Paper title: ' . $p . '"); </script> '; 
 						?>
 						</tbody>
 					</table>
 					<div class="table-button">
-						<a type="submit" class="table-button" value="Export '<?php echo strtolower($query) ?>' to PDF" target="_blank" href="./app/PDFconverter.php?url=<?php echo "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" ?>" ><span class="a-button">ᴇxᴘᴏʀᴛ</span></a>
+						<a type="submit" class="table-button" value="Export '<?php echo strtolower($query) ?>' to PDF" target="_blank" href="./app/PDFconverter.php?url=<?php echo "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" ?>" ><span class="a-button">ᴇxᴘᴏʀᴛ to PDF</span></a>
+					</div>
+
+					<div class="table-button">
+						<button onclick="createTextFile()"><span class="a-button">ᴇxᴘᴏʀᴛ to text file</span></button>
 					</div>
 				</div>
 			</div>
