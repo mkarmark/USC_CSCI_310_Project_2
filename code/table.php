@@ -24,6 +24,8 @@
 			
 			 alert("Look at newfile.txt! It's there!!!!!");
 		}
+
+
 		</script>
 		<link rel="stylesheet" type="text/css" href="assets/stylesheets/main.css">
 		<meta charset="utf-8">	
@@ -179,6 +181,17 @@
 									delete link; 
 								}
 
+								function openBibTex() {
+									var bibtex = document.createElement("a");
+									bibtex.download = "test.jsp";
+									bibtex.target = "_blank";
+									bibtex.href = document.getElementById('. "\"pdfdownload" . $ab . "\"" . ' ).innerHTML;
+									
+									bibtex.click();
+									//document.body.removeChild(link);
+									delete bibtex; 
+								}
+
 
 
 							</script>'; 
@@ -250,7 +263,7 @@
 							"class='white_content light'>".$paper->bibtex->bibtex."<a class='close_link' href='javascript:void(0)' ".
 							"onclick=\"document.getElementById('bib-light-".$key."').style.display='none';".
 							"document.getElementById('bib-fade-".$key."').style.display='none'\">Close</a></div><div id='bib-fade-".$key."' class='black_overlay'></div></td>";
-							 
+				
 							$pattern = '/org//';
 							$replacement = 'org.libproxy2.usc.edu/';
 							$replaced = preg_replace($pattern, $replacement, $string); 
