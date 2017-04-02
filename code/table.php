@@ -179,18 +179,6 @@
 									delete link; 
 								}
 
-								function abstractPopupPDFViewer() {
-									var button = document.createElement("a");
-									button.download = "test.jsp";
-									button.target = "_blank";
-									button.href = document.getElementById('. "\"pdfdownload" . $ab . "\"" . ' ).innerHTML;
-									document.body.appendChild(button);
-									button.click();
-									document.body.removeChild(button);
-									delete link; 
-								}
-
-
 
 
 							</script>'; 
