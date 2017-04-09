@@ -211,7 +211,7 @@
 									query.target = "_blank";
 									
 									document.body.appendChild(query);
-									
+									   
 									
 								}
 
