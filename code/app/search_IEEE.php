@@ -11,6 +11,24 @@ function getPaperResults($author, $keyword, $limit = 10) {
 	return getResults($author, $keyword, $IEEE, $limit); //@codeCoverageIgnore
 }
 
+//Previous History
+function getPreviousResults($author, $keyword, $IEEE, $limit = 10) {
+	
+	if ((!$author && !$keyword) || !$limit) return null;		
+	
+	if ($author){
+		$results = $IEEE->param_q(array('au' => $author, 'hc' => $limit))->execute_request();
+	}
+	else {
+		$results = $IEEE->param_q(array('querytext' => $keyword, 'hc' => $limit))->execute_request();
+	}
+	
+	$papers = array();	
+	if (!isset($results['document'])) {
+		return $papers;
+	}
+}
+
 //If you want to use your own IEEE
 function getResults($author, $keyword, $IEEE, $limit = 10) {
 	
