@@ -1,13 +1,11 @@
 <?php  
 	require_once('app/Application.php');
 	$WC = $_SESSION['WC'];
-
-	
 ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Fusion - Report Table</title>
+		<title id="title-page"></title>
 		<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 		<script src="assets/javascript/jquery-latest.js"></script>
 		<script src="assets/javascript/jquery.tablesorter.js"></script>
@@ -20,20 +18,16 @@
 		        $("#tftable").tablesorter( {sortList: [[0,1]]} ); 
 		    });
 		</script>
-
-		<script>
-		function createTextFile() {
-			
-			 alert("Look at newfile.txt! It's there!!!!!");
-		}
-
-
-		</script>
-
 		<link rel="stylesheet" type="text/css" href="assets/stylesheets/main.css">
 		<meta charset="utf-8">	
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <script>
+		function createTextFile() {
+			
+			 alert("Look at newfile.txt! It's there!!!!!");
+		}
+		</script>
 	</head>
 	<body>
 		<div class="preloading"></div>
@@ -43,10 +37,10 @@
 		<div class="container">			
 			<div class="wrapper">
 				<div class="header">
-					<a href="./index.php"><img src="assets/images/home.png" height="35%" width="35%" /></a>
+					<a href="./index.php"><div id="table-title"><!-- <img src="assets/images/home.png" height="35%" width="35%" /> --></div></a>
 				</div>
 				<?php
-					
+
 					if (isset($WC)) { 
 						// try {
 						// 	$WC->generateWC();
@@ -75,6 +69,8 @@
 						catch (Exception $e) {
 						}
 					}
+					echo '<script> document.getElementById("title-page").innerHTML = "' . $query . '"</script>';
+					echo '<script> document.getElementById("table-title").innerHTML = "' . $query . '"</script>';
 				?>
 				<div id="search_info">
 					<table class="tablesorter" id="tftable" border="1">
@@ -90,8 +86,6 @@
 						</thead>
 						<tbody>
 						<?php 
-
-
 						$myFile = fopen('newfile.txt', 'w') or die('unable to open');
 						$papers = $WC->getPapers(new IEEE());
 							foreach($papers as $paper) {
@@ -128,7 +122,6 @@
 							fwrite($myFile, $conferencea);
 							fwrite($myFile, $frequencya); 
 							fwrite($myFile, $dummyline); 
-
 							//$title_words = explode(' ', $paper->title);
 							//foreach ($title_words as $title_word) {
 							//	echo '<a href="cloud.php?query='.preg_replace('/[^a-z0-9]+/i', '', $title_word).'">'.$title_word.' </a>';
@@ -161,7 +154,6 @@
 
 								</div>';
 							echo '<script> 
-
 								var modal = document.getElementById(' . "\"myModal" . $ab . "\"" . '); 
 								var span = document.getElementById('. "\"close" . $ab . "\"" . '); 
 								span.onclick = function() {
@@ -186,49 +178,10 @@
 									delete link; 
 								}
 
-								function openBibTex() {
-									var bibtex = document.createElement("a");
-									bibtex.download = "test.jsp";
-									bibtex.target = "_blank";
-									bibtex.href = document.getElementById('. "\"pdfdownload" . $ab . "\"" . ' ).innerHTML;
-									
-									bibtex.click();
-									//document.body.removeChild(link);
-									delete bibtex; 
-								}
-
 
 
 							</script>'; 
 							
-							echo '<script> 
-
-								
-
-								function createSearchParam() {
-									var query = document.createElement("a");
-									
-									query.target = "_blank";
-									
-									document.body.appendChild(query);
-									   
-									
-								}
-
-								function addToSearch() {
-									var link = document.createElement("a");
-									link.download = "test.jsp";
-									link.target = "_blank";
-									link.href = document.getElementById('. "\"pdfdownload" . $ab . "\"" . ' ).innerHTML;
-									
-									link.click();
-									delete link; 
-								}
-
-
-
-							</script>'; 
-
 							echo '<button id='. "\"button" . $ab . "\"" . '>'.$paper->title.'</button>';
 							echo '<script> 
 							var b = document.getElementById('. "\"button" . $ab . "\"" . ');
@@ -269,7 +222,7 @@
 							$author_words = preg_split('/([;])/', $paper->author_string, -1, PREG_SPLIT_DELIM_CAPTURE);
 							foreach ($author_words as $author_word) {
 								if ($author_word!==';') {
-									echo '<a href="cloud.php?query='.urlencode($author_word).'">'.$author_word.'</a>';
+									echo '<a href="cloud.php?query='.urlencode($author_word).'" class ="author-button">'.$author_word.'</a>';
 								} else {
 									echo $author_word;
 								}
@@ -290,34 +243,20 @@
 								$params[] = 'issue='.urlencode($paper->issue);
 							}
 							$params = implode('&', $params);
-							echo '<td><a href="/source.php?'.$params.'">'.$paper->source.'</a></td>';
-							echo "<td><p><a href='javascript:void(0)' onclick=\"document.getElementById('bib-light-".$key."').style.display='block';".
+							echo '<td><a href="/source.php?'.$params.'" class="source-button">'.$paper->source.'</a></td>';
+							echo "<td><p><a href='javascript:void(0)' class='biblink' onclick=\"document.getElementById('bib-light-".$key."').style.display='block';".
 							"document.getElementById('bib-fade-".$key."').style.display='block'\">Bibliography</a></p><div id='bib-light-".$key."' ".
 							"class='white_content light'>".$paper->bibtex->bibtex."<a class='close_link' href='javascript:void(0)' ".
 							"onclick=\"document.getElementById('bib-light-".$key."').style.display='none';".
 							"document.getElementById('bib-fade-".$key."').style.display='none'\">Close</a></div><div id='bib-fade-".$key."' class='black_overlay'></div></td>";
-				
+							 
 							$pattern = '/org//';
 							$replacement = 'org.libproxy2.usc.edu/';
 							$replaced = preg_replace($pattern, $replacement, $string); 
-							echo '<td><a href="'.$good.'" target=\'_blank\'"> PDF </a></td></tr>';
+							echo '<td><a href="'.$good.'" target=\'_blank\'" class="pdflink"> PDF </a></td></tr>';
 							//echo '<td><a href="'.$good.'" download>PDF</a></td></tr>';
 							//echo '<td><a href="https://www.w3schools.com/css/trolltunga.jpg" download>PDF</a></td></tr>';
-
-							// echo '<script> 
-							// 	function createTextFile() {
-									
-    			// 					var textfile = "arpitatest.txt";
-    			// 					var file = new File([""], textfile);
-    			// 					var str = "my text";
-    			// 					file.open("w");
-    			// 					file.write(str);
-    			// 					file.close();
-							// 	}
-							// </script>';
 						}
-						fclose($myFile);
-						//echo '<script> console.log("Paper title: ' . $p . '"); </script> '; 
 						?>
 						</tbody>
 					</table>
