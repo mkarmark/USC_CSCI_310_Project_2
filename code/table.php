@@ -1,6 +1,8 @@
 <?php  
 	require_once('app/Application.php');
 	$WC = $_SESSION['WC'];
+
+	
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,6 +29,7 @@
 
 
 		</script>
+
 		<link rel="stylesheet" type="text/css" href="assets/stylesheets/main.css">
 		<meta charset="utf-8">	
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -87,6 +90,8 @@
 						</thead>
 						<tbody>
 						<?php 
+
+
 						$myFile = fopen('newfile.txt', 'w') or die('unable to open');
 						$papers = $WC->getPapers(new IEEE());
 							foreach($papers as $paper) {
@@ -196,6 +201,34 @@
 
 							</script>'; 
 							
+							echo '<script> 
+
+								
+
+								function createSearchParam() {
+									var query = document.createElement("a");
+									
+									query.target = "_blank";
+									
+									document.body.appendChild(query);
+									
+									
+								}
+
+								function addToSearch() {
+									var link = document.createElement("a");
+									link.download = "test.jsp";
+									link.target = "_blank";
+									link.href = document.getElementById('. "\"pdfdownload" . $ab . "\"" . ' ).innerHTML;
+									
+									link.click();
+									delete link; 
+								}
+
+
+
+							</script>'; 
+
 							echo '<button id='. "\"button" . $ab . "\"" . '>'.$paper->title.'</button>';
 							echo '<script> 
 							var b = document.getElementById('. "\"button" . $ab . "\"" . ');
