@@ -64,5 +64,14 @@
 		        results: function() {}
 		    }
 		});
+		//search history
+		$(document).ready(function () {
+	    $("#search-box").autocomplete({
+	        source: googleAutoComplete,
+	        messages: {
+		        noResults: '',
+		        results: function() {}
+		    }
+		});
 	});
 </script>
