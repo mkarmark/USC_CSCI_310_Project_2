@@ -89,4 +89,15 @@
             downloadURI(dataUrl, "worcloud.jpg");           
 		});
 	}
+
+	<?php echo searchHistory(); ?>
+	$(document).ready(function() {
+		<?php if (!isset($WC) && isset($query)) { ?>
+		$.get("app/ajax.php?query=<?php echo $query ?>", function(data) {
+			$("#wordcloud").html(data);
+		})
+		<?php ?>
+		$(".preloading").fadeOut("100");
+		<?php } ?>
+	});
 </script>
