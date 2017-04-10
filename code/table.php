@@ -1,6 +1,7 @@
 <?php  
 	require_once('app/Application.php');
 	$WC = $_SESSION['WC'];
+	//$numPapers = $_SESSION['numberBox'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,27 +49,33 @@
 						// catch (Exception $e) {
 						// }
 						$query = $_GET['query'];
+						echo "<script>console.log('". "hello: " . $query ."')</script>";
+						$numPapers = $_SESSION['numPapers'];
+						echo "<script>console.log('". "hello: " . $numPapers ."')</script>";
 
 						try {
-							$WC = new WordCloud($query);
-							
-							 $WC->generateCloud(new IEEE());
+							$WC = new WordCloud($query, $numPapers);
+							echo "<script>console.log('". "new hello: " . $numPapers ."')</script>"; 
+							 $WC->generateCloud2(new IEEE(), $numPapers);
+							 echo "<script>console.log('". "third hello: " . $numPapers ."')</script>";
 							 $_SESSION['WC'] = $WC;
 							 $WC->generateWC();
+							 echo "<script>console.log('". "fourth hello: " . $numPapers ."')</script>"; 
 						}
 						catch (Exception $e) {
 						}
 					} else if (isset($_GET['query'])) {
 					    $query = $_GET['query'];
 						try {
-							$WC = new WordCloud($query);
-							$WC->generateCloud(new IEEE());
+							$WC = new WordCloud($query, $numPapers);
+							$WC->generateCloud2(new IEEE(), $numPapers);
 							$_SESSION['WC'] = $WC;
 							$WC->generateWC();
 						}
 						catch (Exception $e) {
 						}
 					}
+					echo "<script>console.log('initialized')</script>";
 					echo '<script> document.getElementById("title-page").innerHTML = "' . $query . '"</script>';
 					echo '<script> document.getElementById("table-title").innerHTML = "' . $query . '"</script>';
 				?>
@@ -87,7 +94,11 @@
 						<tbody>
 						<?php 
 						$myFile = fopen('newfile.txt', 'w') or die('unable to open');
-						$papers = $WC->getPapers(new IEEE());
+						$papers = $WC->getPapers(new IEEE()); 
+						if ($papers == NULL) {
+							echo "<script>console.log('papers is null :(') </script>";
+						}
+						//echo "<script>console.log('initialized papers')</script>";
 							foreach($papers as $paper) {
 								$p = implode('|', $paper); 
 									echo '<script> console.log("Paper title: ' . $p . '"); </script> ';
@@ -182,7 +193,7 @@
 
 							</script>'; 
 							
-							echo '<button id='. "\"button" . $ab . "\"" . '>'.$paper->title.'</button>';
+							echo '<button class="abstract-button" id='. "\"button" . $ab . "\"" . '>'.$paper->title.'</button>';
 							echo '<script> 
 							var b = document.getElementById('. "\"button" . $ab . "\"" . ');
 
@@ -261,11 +272,11 @@
 						</tbody>
 					</table>
 					<div class="table-button">
-						<a type="submit" class="table-button" value="Export '<?php echo strtolower($query) ?>' to PDF" target="_blank" href="./app/PDFconverter.php?url=<?php echo "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" ?>" ><span class="a-button">ᴇxᴘᴏʀᴛ to PDF</span></a>
+						<a type="submit" class="table-button" value="Export '<?php echo strtolower($query) ?>' to PDF" target="_blank" href="./app/PDFconverter.php?url=<?php echo "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" ?>" ><span class="a-button" id="export-pdf-button">ᴇxᴘᴏʀᴛ to PDF</span></a>
 					</div>
 
 					<div class="table-button">
-						<button onclick="createTextFile()"><span class="a-button">ᴇxᴘᴏʀᴛ to text file</span></button>
+						<button onclick="createTextFile()"><span id="export-text-button" class="a-button">ᴇxᴘᴏʀᴛ to text file</span></button>
 					</div>
 				</div>
 			</div>
