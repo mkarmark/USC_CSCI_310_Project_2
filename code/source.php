@@ -76,6 +76,31 @@
 										echo $author_word;
 									}
 								}
+
+								echo '<script> 
+								
+								searchHistory.onclick = function() {
+									var m = document.getElementById(' . "\"myModal" . $ab . "\"" . '); 
+									m.style.display = "block"; 
+								}
+
+								window.onclick = function(event) {
+									if (event.target == modal) {
+										modal.style.display = "none"; 
+									}
+								}
+
+								function addSearch() {
+									var search = document.createElement("a");
+									search.download = "' . $query . '";
+									search.target = "_blank";
+									document.body.appendChild(search);
+									search.click();
+								}
+
+
+
+							</script>'; 
 								echo '</td>';
 								$params = array();
 								if(isset($paper->pubtype)) {
