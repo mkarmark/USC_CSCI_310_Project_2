@@ -78,6 +78,9 @@
 					echo "<script>console.log('initialized')</script>";
 					echo '<script> document.getElementById("title-page").innerHTML = "' . $query . '"</script>';
 					echo '<script> document.getElementById("table-title").innerHTML = "' . $query . '"</script>';
+					 $(document).ready(function() { 
+		        $("#tftable").tablesorter( {sortList: [[0,1]]} ); 
+		    });
 				?>
 				<div id="search_info">
 					<table class="tablesorter" id="tftable" border="1">
