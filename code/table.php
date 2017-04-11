@@ -267,6 +267,14 @@
 							echo '<td><a href="'.$good.'" target=\'_blank\'" class="pdflink"> PDF </a></td></tr>';
 							//echo '<td><a href="'.$good.'" download>PDF</a></td></tr>';
 							//echo '<td><a href="https://www.w3schools.com/css/trolltunga.jpg" download>PDF</a></td></tr>';
+							
+							$(window).load(function() {
+								$(".preloading").fadeOut("100");;
+							});
+						    $(document).ready(function() { 
+						        $("#tftable").tablesorter( {sortList: [[0,1]]} ); 
+						    });
+
 						}
 						?>
 						</tbody>
