@@ -52,7 +52,9 @@
 						echo "<script>console.log('". "hello: " . $query ."')</script>";
 						$numPapers = $_SESSION['numPapers'];
 						echo "<script>console.log('". "hello: " . $numPapers ."')</script>";
-
+						 $(document).ready(function() { 
+ 	     					   $("#tftable").tablesorter( {sortList: [[0,1]]} ); 
+ 		    			});
 						try {
 							$WC = new WordCloud($query, $numPapers);
 							echo "<script>console.log('". "new hello: " . $numPapers ."')</script>"; 
