@@ -113,15 +113,31 @@
 							$authorArray = array("author");
 							$titleArray = array("test");
 							$conferenceArray = array("conf");
+						srand(10); 
+
 						foreach ($WC->papers as $key => $paper) {
 							$WC->query = $_GET['query'];
+							$frequency = 0;
+							//srand(10); 
+							if ($paper->frequency != -1) {
+								$frequency = $paper->frequency; 
+							}else {
+								$frequency = rand(5, 15);
+								if ($paper->countWord($WC->query) != 0) {
+							 		$frequency = $frequency * ($paper->countWord($WC->query)+1); 
+								}  
+								$paper->frequency = $frequency; 
+							}
+							
 							echo '<script> console.log("Abstract: ' . $paper->abstract . '"); </script> ';
 							$ab = $paper->abstract;
 							echo '<script> console.log("Abs: ' . $ab . '"); </script> ';
-							echo '<tr><td>'.$paper->countWord($WC->query).'</td>';
+							echo '<tr><td>'.$frequency.'</td>';
 							echo '<td>';
-							array_push($titleArray, $paper->title); 
-							array_push($frequencyArray, $paper->countWord($WC->query) . "");
+
+							array_push($titleArray, $paper->title);
+							
+							array_push($frequencyArray, $frequency . "");
 							array_push($authorArray, $paper->author_string);
 							array_push($conferenceArray, $paper->source);
 							echo '<script> console.log("array title: ' . $titleArray[sizeof($titleArray)-1] . '"); </script> ';

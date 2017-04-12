@@ -16,6 +16,7 @@ class PaperTest extends TestCase {
 	protected $issue = 'issue';
 	protected $from = 'IEEE';
 	protected $py = 'py';
+	protected $text = 'this is the full text of the document';
 	
 	// /**
 	//  * @codeCoverageIgnore
@@ -65,6 +66,7 @@ class PaperTest extends TestCase {
 		$article['issue'] = $this->issue;
 		$article['pdf'] = $this->pdf;
 		$article['abstract'] = $this->abstract;
+
 	
 		$paper = new Paper($article);
 		
@@ -86,6 +88,26 @@ class PaperTest extends TestCase {
 		$this->assertNotNull($paper->bibtex);
 		
 		return $paper;
+	}
+
+	public function testPaperCreationContainsFullText() {
+		$article = array();
+		$article['from'] = $this->from;
+		$article['authors'] = $this->authors;
+		$article['py'] = $this->py;
+		$article['title'] = $this->title;
+		$article['pubtype'] = $this->pubtype;
+		$article['pubtitle'] = $this->pubtitle;
+		$article['punumber'] = $this->punumber;
+		$article['volume'] = $this->volume;
+		$article['issue'] = $this->issue;
+		$article['pdf'] = $this->pdf;
+		$article['abstract'] = $this->abstract;
+		$article['text'] = $this->text;
+
+		$paper = new Paper($article);
+		$this->assertEquals($this->text, $paper->text); 
+
 	}
 	
 	/**
