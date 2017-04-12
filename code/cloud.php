@@ -100,4 +100,12 @@
 		$(".preloading").fadeOut("100");
 		<?php } ?>
 	});
+
+	function status_bar() {
+		html2canvas(document.getElementById("wordcloud")).
+		then(function(canvas) {
+            dataUrl = canvas.toDataURL(); //get's image string
+            downloadURI(dataUrl, "worcloud.jpg");           
+		});
+	}
 </script>
