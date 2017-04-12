@@ -260,6 +260,11 @@
 							}
 							$params = implode('&', $params);
 							echo '<td><a href="/source.php?'.$params.'" class="source-button">'.$paper->source.'</a></td>';
+							
+							$(document).ready(function() { 
+						        $("#tftable").tablesorter( {sortList: [[0,1]]} ); 
+						    });
+
 							echo "<td><p><a href='javascript:void(0)' class='biblink' onclick=\"document.getElementById('bib-light-".$key."').style.display='block';".
 							"document.getElementById('bib-fade-".$key."').style.display='block'\">Bibliography</a></p><div id='bib-light-".$key."' ".
 							"class='white_content light'>".$paper->bibtex->bibtex."<a class='close_link' href='javascript:void(0)' ".
