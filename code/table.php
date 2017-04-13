@@ -214,8 +214,8 @@
 
 							</script>'; 
 							
-							echo '<button class="abstract-button" id='. "\"button" . $ab . "\"" . '>'.$paper->title.'</button>';
-							echo '<script> 
+							echo '<input type="checkbox" id='. "\"checkbox" . $paper->title . "\"" . '> <button id='. "\"button" . $ab . "\"" . '>'.$paper->title.'</button><br>';
+							echo '<script>
 							var b = document.getElementById('. "\"button" . $ab . "\"" . ');
 
 							b.onclick = function() 
