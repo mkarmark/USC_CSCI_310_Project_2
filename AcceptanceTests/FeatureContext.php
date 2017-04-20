@@ -926,6 +926,14 @@ class FeatureContext extends MinkContext
         }
     }
 
-
+   public function thereIsACheckboxForEachPaper()
+   {
+	$driver = new \Behat\Mink\Driver\Selenium2Driver('firefox');
+        $session = new \Behat\Mink\Session($driver);
+        $session->start();
+        $session->visit("http://localhost/table.php?query=drone");
+        $authorButtons = $page->find('css', 'author-button');
+        $authorButtons[0]->click();
+   }
 
 }

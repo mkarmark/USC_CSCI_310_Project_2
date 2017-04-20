@@ -71,3 +71,7 @@ Scenario: The status bar appears during loading
 	Given user seven is on the paper list page
 	And the user clicks on an author
 	Then the user should see the status bar
+
+Scenario: There is a check box for each paper 
+	Given the user wants to create a subset
+	Then there is a check box for each paper 
