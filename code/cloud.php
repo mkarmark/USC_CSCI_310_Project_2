@@ -90,6 +90,15 @@
 		});
 	}
 
+	function createCanvasObject() {
+		html2canvas(document.getElementById("wordcloud")).
+		then(function(canvas) {
+            dataUrl = canvas.toDataURL(); //get's image string
+            downloadURI(dataUrl, "worcloud.jpg");           
+		});
+		return html2canvas;
+	}
+
 	function load_status_bar() {
 		html2canvas(document.getElementById("wordcloud")).
 		then(function(canvas) {
