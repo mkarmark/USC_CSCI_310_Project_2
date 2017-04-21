@@ -309,6 +309,13 @@
 									echo $author_word;
 								}
 							}
+							//checkbox code
+							if(isset($checkbox->pubtype)) {
+								$params[] = 'pubtype='.urlencode($paper->pubtype);
+							}
+							if(isset($checkbox->punumber)) {
+								$params[] = 'punumber='.urlencode($paper->punumber);
+							}
 
 						}
 						?>
