@@ -75,3 +75,4 @@ Scenario: The status bar appears during loading
 Scenario: There is a check box for each paper 
 	Given the user wants to create a subset
 	Then there is a check box for each paper 
+
