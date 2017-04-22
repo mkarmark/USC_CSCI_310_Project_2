@@ -99,6 +99,16 @@
 		return html2canvas;
 	}
 
+	function turnCanvasToPNG() {
+		$.get("app/ajax.php?query=<?php echo $query ?>", function(data) {
+			$("#wordcloud").html(data);
+		}).done(function() {
+			$(".preloading").fadeOut("100");
+		});
+		<?php } else { ?>
+		$(".preloading").fadeOut("100");
+	}
+
 	function load_status_bar() {
 		html2canvas(document.getElementById("wordcloud")).
 		then(function(canvas) {
