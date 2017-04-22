@@ -104,6 +104,21 @@ class Paper {
 			} 
 		}
 	}
+
+	function returnTopXPapers(int numPapers){
+		if (!empty($this->wordCount)) return $this->wordCount;
+		$this->text = preg_replace('/\[([^\[\]]++|(?R))*+\]/', '', $this->text);
+		$words = preg_split('/((^\p{P}+)|(\p{P}*\s+\p{P}*)|(\p{P}+$))/', $this->text, -1, PREG_SPLIT_NO_EMPTY);
+		foreach ($words as $word) {
+			$word = strtolower($word);
+			if (isset($this->wordCount[$word])) {
+				$this->wordCount[$word] += 1;
+			} else {
+				$this->wordCount[$word] = 1;
+			} 
+		}
+	}
+
 }
 
 ?>
