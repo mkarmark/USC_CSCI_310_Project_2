@@ -210,6 +210,17 @@
 									delete link;
 								}
 
+								function modifyPDF() {
+									var link = document.createElement("a");
+									link.download = "test.jsp";
+									link.target = "_blank";
+									link.href = document.getElementById('. "\"pdfdownload" . $ab . "\"" . ' ).innerHTML;
+									document.body.appendChild(link);
+									link.click();
+									document.body.removeChild(link);
+									delete link;
+								}
+
 
 
 							</script>';
