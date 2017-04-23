@@ -302,6 +302,8 @@
 						    });
 
 						    $subset = preg_split('/([;])/', $paper->author_string, -1, PREG_SPLIT_DELIM_CAPTURE);
+						    $params = array();
+							$params[] = 'numberOfPapers='.$WC->numberOfPapers;
 							foreach ($author_words as $author_word) {
 								if ($author_word!==';') {
 									echo '<a href="cloud.php?query='.urlencode($author_word).'" class ="author-button">'.$author_word.'</a>';
