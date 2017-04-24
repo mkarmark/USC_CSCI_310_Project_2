@@ -390,6 +390,25 @@ class PaperTest extends TestCase {
 		$this->assertEquals($this->titleAbstract, $paper->getAbstractToDisplayInPopup($paper->title)); 
 	}
 
+	public function testAbstractCorrespondingToTitleIsNotNull() {
+		$article = array();
+		
+		$article['from'] = $this->from;
+		$article['authors'] = $this->authors;
+		$article['py'] = $this->py;
+		$article['title'] = $this->title;
+		$article['pubtype'] = $this->pubtype;
+		$article['pubtitle'] = $this->pubtitle;
+		$article['punumber'] = $this->punumber;
+		$article['volume'] = $this->volume;
+		$article['issue'] = $this->conf;
+		$article['pdf'] = $this->pdf;
+		$article['abstract'] = $this->abstract;
+
+		$paper = new Paper($article);
+		$this->assertNotNull($this->titleAbstract); 
+	}
+
 	public function testPDFIsAccurateInAbstractPopup() {
 		$article = array();
 		

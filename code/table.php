@@ -298,6 +298,14 @@
 							"onclick=\"document.getElementById('bib-light-".$key."').style.display='none';".
 							"document.getElementById('bib-fade-".$key."').style.display='none'\">Close</a></div><div id='bib-fade-".$key."' class='black_overlay'></div></td>";
 
+							echo "<td><p><a href='highlight:void(0)' class='biblink' onclick=\"pdf.getElementById('highlight-light-".$key."').style.display='block';".
+							"pdf.getElementById('bib-fade-".$key."').style.display='highlight'\">Link</a></p><div id='bib-light-".$key."' ".
+							"class='white_content light'>".$paper->pdf."<a class='close_link' href='highlight:void(0)' ".
+							"onclick=\"pdf.getElementById('bib-light-".$key."').style.display='highlight';".
+							"pdf.getElementById('bib-fade-".$key."').style.display='highlight'\">Close</a></div><div id='bib-fade-".$key."' class='black_overlay'></div></td>";
+
+
+
 							$pattern = '/org//';
 							$replacement = 'org.libproxy2.usc.edu/';
 							$replaced = preg_replace($pattern, $replacement, $string);
