@@ -329,6 +329,13 @@
 							if(isset($checkbox->punumber)) {
 								$params[] = 'punumber='.urlencode($paper->punumber);
 							}
+							//pass code to
+							if(isset($paper->numberOfPapers)) {
+								$params[] = 'papers='.urlencode($paper->numberOfPapers);
+							}
+							// if(isset($paper->issue)) {
+							// 	$params[] = 'issue='.urlencode($paper->issue);
+							// }
 
 						}
 						?>
