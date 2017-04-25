@@ -1,4 +1,4 @@
-<?php  
+<?php
 	require_once('app/Application.php');
 	$WC = $_SESSION['WC'];
 	$query = isset($_GET['query']) ? $_GET['query']: '';
@@ -14,32 +14,32 @@
 		<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 		<script src="assets/javascript/jquery-latest.js"></script>
 		<script src="assets/javascript/jquery.tablesorter.js"></script>
-	    <script src="assets/javascript/sidebar.js"></script>		
+	    <script src="assets/javascript/sidebar.js"></script>
 		<script>
 			$(window).load(function() {
 				$(".preloading").fadeOut("100");;
 			});
-		    $(document).ready(function() { 
-				$("#tftable").tablesorter( {sortList: [[0,1]]} ); 
-			}); 
+		    $(document).ready(function() {
+				$("#tftable").tablesorter( {sortList: [[0,1]]} );
+			});
 		</script>
 		<link rel="stylesheet" type="text/css" href="assets/stylesheets/main.css">
-		<meta charset="utf-8">	
+		<meta charset="utf-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>
 	<body>
-		<div class="preloading"></div>	
+		<div class="preloading"></div>
 		<div id="sidebar">
 		  <div class="sidebar-toggle"></div>
 		</div>
-		<div class="container">			
+		<div class="container">
 			<div class="wrapper">
 				<div class="header">
 					<a href="/"><img src="assets/images/home.png" height="35%" width="35%" /></a>
 				</div>
 				<div id="source-name">
-					SOURCE 
+					SOURCE
 				</div>
 				<div id="search_info">
 					<table class="tablesorter" id="tftable" border="1">
@@ -54,7 +54,7 @@
 							</tr>
 						</thead>
 						<tbody>
-						<?php 
+						<?php
 							$papers = array();
 							$papers_data = getSamePublication($pubtype, $punumber, $volume, $issue);
 							foreach ($papers_data as $key => $paper_data) {
@@ -77,16 +77,16 @@
 									}
 								}
 
-								echo '<script> 
-								
+								echo '<script>
+
 								searchHistory.onclick = function() {
-									var m = document.getElementById(' . "\"myModal" . $ab . "\"" . '); 
-									m.style.display = "block"; 
+									var m = document.getElementById(' . "\"myModal" . $ab . "\"" . ');
+									m.style.display = "block";
 								}
 
 								window.onclick = function(event) {
 									if (event.target == modal) {
-										modal.style.display = "none"; 
+										modal.style.display = "none";
 									}
 								}
 
@@ -100,7 +100,7 @@
 
 
 
-							</script>'; 
+							</script>';
 								echo '</td>';
 								$params = array();
 								if(isset($paper->pubtype)) {
@@ -123,6 +123,14 @@
 								"onclick=\"document.getElementById('bib-light-".$key."').style.display='none';".
 								"document.getElementById('bib-fade-".$key."').style.display='none'\">Close</a></div><div id='bib-fade-".$key."' class='black_overlay'></div></td>";
 								echo '<td><a href="'.$paper->pdf.'" target=\'_blank\' ">PDF</a></td></tr>';
+
+
+                                function getSubset() {
+                                    var subset = document.get(SUBSET);
+                                    foreach ($paper as $paper) {
+                                    echo '<a href="table.php?query='.preg_replace('/[^a-z0-9]+/i', '', $paper).'">'.$paper.' </a>';
+                                }
+                                }
 							}
 						?>
 						</tbody>
