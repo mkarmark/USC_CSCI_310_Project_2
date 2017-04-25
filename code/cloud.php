@@ -54,8 +54,12 @@
 					<input type="submit" value="View Research Paper Information" class="table-button" onclick="location.href = '/table.php?query=<?php echo $query ?>';">
 				</div>
 				<div>
-					<button id="download_btn" onclick="download_wc()">Download Word Cloud</button>
+					<button id="download_btn" onclick="download_wc()" download >Download Word Cloud</button>
 				</div>
+
+				<!-- <div>
+					<button id="download_btn" onclick="download_wc()">Download Word Cloud</button>
+				</div> -->
 			</div>
 		</div>
 	</body>
@@ -83,11 +87,8 @@
     }
    
     function download_wc() {
-		html2canvas(document.getElementById("wordcloud")).
-		then(function(canvas) {
-            dataUrl = canvas.toDataURL(); //get's image string
-            downloadURI(dataUrl, "worcloud.jpg");           
-		});
+		createCanvasObject();
+		turnCanvasToPNG();
 	}
 
 	function createCanvasObject() {
